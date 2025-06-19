@@ -5,6 +5,9 @@
       "noImplicitAny": true,
       "module": "CommonJS",
       "target": "es5",
-      "allowJs": true
+      "allowJs": true,
+      "lib": ["dom", "es2015"],
+      "skipLibCheck": true,
+      "types": []
     }
 }
