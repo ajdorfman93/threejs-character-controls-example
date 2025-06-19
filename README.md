@@ -6,5 +6,6 @@ threejs-character-controls-example
 Try the [Stackblitz](https://stackblitz.com/github/tamani-coding/threejs-character-controls-example)  
   
 Checkout the file `characterControls.ts` for the character controller implementation.
+Hold <kbd>Shift</kbd> while moving to make the character run instead of walk.
 
 ![Screenshot](https://github.com/tamani-coding/threejs-character-controls-example/blob/main/screenshot01.png?raw=true)

@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { A, D, DIRECTIONS, S, W } from './utils'
+import { A, D, DIRECTIONS, S, W, SHIFT } from './utils'
 
 
 export class CharacterControls {
@@ -12,7 +12,6 @@ export class CharacterControls {
     camera: THREE.Camera
 
     // state
-    toggleRun: boolean = true
     currentAction: string
     
     // temporary data
@@ -44,15 +43,11 @@ export class CharacterControls {
         this.updateCameraTarget(0,0)
     }
 
-    public switchRunToggle() {
-        this.toggleRun = !this.toggleRun
-    }
-
     public update(delta: number, keysPressed: any) {
         const directionPressed = DIRECTIONS.some(key => keysPressed[key] == true)
 
-        var play = '';
-        if (directionPressed && this.toggleRun) {
+        let play = ''
+        if (directionPressed && keysPressed[SHIFT]) {
             play = 'Run'
         } else if (directionPressed) {
             play = 'Walk'
