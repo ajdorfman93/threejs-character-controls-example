@@ -30,6 +30,41 @@ orbitControls.enablePan = false
 orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
 orbitControls.update();
 
+// custom orbit behaviour - follow mouse without button press
+orbitControls.saveState();
+let prevMouseX: number | null = null;
+let prevMouseY: number | null = null;
+let inactivityTimeout: ReturnType<typeof setTimeout> | null = null;
+const spherical = new THREE.Spherical();
+const offset = new THREE.Vector3();
+const rotationSpeed = 0.005;
+
+function scheduleReset() {
+    if (inactivityTimeout) clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(() => {
+        orbitControls.reset();
+        prevMouseX = prevMouseY = null;
+    }, 3000);
+}
+
+document.addEventListener('mousemove', (event) => {
+    if (prevMouseX !== null && prevMouseY !== null) {
+        const deltaX = event.clientX - prevMouseX;
+        const deltaY = event.clientY - prevMouseY;
+        offset.copy(camera.position).sub(orbitControls.target);
+        spherical.setFromVector3(offset);
+        spherical.theta -= deltaX * rotationSpeed;
+        spherical.phi -= deltaY * rotationSpeed;
+        spherical.phi = Math.max(0.001, Math.min(orbitControls.maxPolarAngle, spherical.phi));
+        offset.setFromSpherical(spherical);
+        camera.position.copy(orbitControls.target).add(offset);
+        camera.lookAt(orbitControls.target);
+    }
+    prevMouseX = event.clientX;
+    prevMouseY = event.clientY;
+    scheduleReset();
+});
+
 // LIGHTS
 light()
 
