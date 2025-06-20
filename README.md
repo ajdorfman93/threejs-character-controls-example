@@ -1,7 +1,7 @@
 # threejs-character-controls-example
 threejs-character-controls-example
 
-`npm install` and `npm run start`  
+`npm install` `npm run build` and `npm run start`  
   
 Try the [Stackblitz](https://stackblitz.com/github/tamani-coding/threejs-character-controls-example)  
   
