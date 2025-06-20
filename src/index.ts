@@ -39,10 +39,29 @@ const spherical = new THREE.Spherical();
 const offset = new THREE.Vector3();
 const rotationSpeed = 0.005;
 
+function smoothReset(duration = 1) {
+    const startPos = camera.position.clone();
+    const startTarget = orbitControls.target.clone();
+    const endPos = (orbitControls as any).position0.clone();
+    const endTarget = (orbitControls as any).target0.clone();
+    const startTime = performance.now();
+
+    function animate(time: number) {
+        const t = Math.min((time - startTime) / (duration * 1000), 1);
+        camera.position.lerpVectors(startPos, endPos, t);
+        orbitControls.target.lerpVectors(startTarget, endTarget, t);
+        orbitControls.update();
+        if (t < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+    requestAnimationFrame(animate);
+}
+
 function scheduleReset() {
     if (inactivityTimeout) clearTimeout(inactivityTimeout);
     inactivityTimeout = setTimeout(() => {
-        orbitControls.reset();
+        smoothReset();
         prevMouseX = prevMouseY = null;
     }, 3000);
 }
