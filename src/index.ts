@@ -33,6 +33,7 @@ orbitControls.update();
 
 // custom orbit behaviour - follow mouse without button press
 orbitControls.saveState();
+const resetOffset = (orbitControls as any).position0.clone().sub((orbitControls as any).target0);
 let prevMouseX: number | null = null;
 let prevMouseY: number | null = null;
 let inactivityTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -43,8 +44,8 @@ const rotationSpeed = 0.005;
 function smoothReset(duration = 1) {
     const startPos = camera.position.clone();
     const startTarget = orbitControls.target.clone();
-    const endPos = (orbitControls as any).position0.clone();
-    const endTarget = (orbitControls as any).target0.clone();
+    const endTarget = startTarget.clone();
+    const endPos = startTarget.clone().add(resetOffset);
     const startTime = performance.now();
 
     function animate(time: number) {
