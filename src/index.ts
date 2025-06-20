@@ -44,8 +44,12 @@ const rotationSpeed = 0.005;
 function smoothReset(duration = 1) {
     const startPos = camera.position.clone();
     const startTarget = orbitControls.target.clone();
-    const endTarget = startTarget.clone();
-    const endPos = startTarget.clone().add(resetOffset);
+
+    const modelQuat = characterControls ? characterControls.model.quaternion : new THREE.Quaternion();
+    const endTarget = characterControls ? characterControls.cameraTarget.clone() : startTarget.clone();
+    const endOffset = resetOffset.clone().applyQuaternion(modelQuat);
+    const endPos = endTarget.clone().add(endOffset);
+
     const startTime = performance.now();
 
     function animate(time: number) {
