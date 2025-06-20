@@ -11,7 +11,7 @@ scene.background = new THREE.Color(0xa8def0);
 
 // CAMERA
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.y = 5;
+camera.position.y = 3;
 camera.position.z = 5;
 camera.position.x = 0;
 
@@ -28,6 +28,7 @@ orbitControls.minDistance = 5
 orbitControls.maxDistance = 15
 orbitControls.enablePan = false
 orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
+orbitControls.target.set(0, 2, 0);
 orbitControls.update();
 
 // custom orbit behaviour - follow mouse without button press
